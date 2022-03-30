@@ -12,11 +12,6 @@
         android:orientation="horizontal"
         android:background="@color/purple_500">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="https://profile.intra.42.fr/images/42_logo.svg" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -52,63 +47,10 @@
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="1dp">
                 <LinearLayout
+                    android:id="@+id/list_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:background="@color/grey_light"
-                        android:orientation="horizontal"
-                        android:layout_marginVertical="4dp" >
-                        <TextView
-                            android:id="@+id/"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="4dp"
-                            android:textSize="19sp"
-                            android:text="Firstname" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="4dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:text="Lastname" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:background="@color/grey"
-                        android:orientation="horizontal"
-                        android:layout_marginVertical="4dp" >
-
-                        <TextView
-                            android:id="@+id/"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="4dp"
-                            android:textSize="19sp"
-                            android:text="Firstname" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="4dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:text="Lastname" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:orientation="vertical" />
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

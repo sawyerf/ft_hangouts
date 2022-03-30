@@ -12,11 +12,6 @@
         android:orientation="horizontal"
         android:background="@color/purple_500">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="https://profile.intra.42.fr/images/42_logo.svg" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -25,35 +20,36 @@
             android:textColor="@color/white"
             android:layout_marginHorizontal="20dp"
             android:textSize="22dp"
-            android:text="ft_hangouts" />
+            android:hint="ft_hangouts" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:hint="OK" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="8dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="20dp"
+            android:layout_marginBottom="16dp"
             android:textStyle="bold"
-            android:text="Edit Contact"/>
-
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Edit Contact"/>
 
         <EditText
             android:id="@+id/editTextTextPersonName2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="Firstname"
+            android:hint="Firstname"
             android:inputType="textPersonName" />
 
         <EditText
@@ -61,7 +57,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="LastName"
+            android:layout_marginBottom="16dp"
+            android:hint="LastName"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/editTextPhone2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginVertical="16dp"
+            android:hint="Phone number"
             android:inputType="phone" />
 
         <EditText
@@ -69,7 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="Email"
+            android:layout_marginVertical="16dp"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -77,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="Birthday"
+            android:layout_marginVertical="16dp"
+            android:hint="Birthday"
             android:inputType="date" />
 
         <EditText
@@ -85,8 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="Address"
+            android:layout_marginVertical="16dp"
+            android:hint="Address"
             android:inputType="textPostalAddress" />
-
     </LinearLayout>
 </LinearLayout>

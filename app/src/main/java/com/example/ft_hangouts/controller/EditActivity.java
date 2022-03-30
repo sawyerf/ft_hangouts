@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.ft_hangouts.R;
+
 public class EditActivity extends AppCompatActivity {
 
     @Override

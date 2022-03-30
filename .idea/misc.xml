@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/activity_edit.xml" value="0.27943840579710144" />
-        <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/activity_edit.xml" value="0.18211920529801323" />
+        <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/activity_modif_contact.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/alarm/AndroidStudioProjects/ft_hangouts/app/src/main/res/layout/main_one_contact.xml" value="0.18802083333333333" />
       </map>
     </option>
   </component>

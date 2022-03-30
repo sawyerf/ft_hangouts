@@ -5,30 +5,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70sp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal"
-        android:background="@color/purple_500">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_marginHorizontal="20dp"
-            android:textSize="22dp"
-            android:hint="ft_hangouts" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:hint="OK" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +21,7 @@
             android:hint="Edit Contact"/>
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/edit_firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -53,16 +29,16 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/editTextPhone"
+            android:id="@+id/edit_lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginBottom="16dp"
             android:hint="LastName"
-            android:inputType="phone" />
+            android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/editTextPhone2"
+            android:id="@+id/edit_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -71,7 +47,7 @@
             android:inputType="phone" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/edit_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -80,7 +56,7 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/edit_birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -89,12 +65,19 @@
             android:inputType="date" />
 
         <EditText
-            android:id="@+id/editTextTextPostalAddress"
+            android:id="@+id/edit_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginVertical="16dp"
             android:hint="Address"
             android:inputType="textPostalAddress" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="OK" />
     </LinearLayout>
 </LinearLayout>

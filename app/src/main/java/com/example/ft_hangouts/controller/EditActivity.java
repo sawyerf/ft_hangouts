@@ -1,16 +1,25 @@
 package com.example.ft_hangouts.controller;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ft_hangouts.R;
+import com.example.ft_hangouts.model.Contact;
 import com.example.ft_hangouts.model.myDataBaseHelper;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
+    private static String TAG = "DESBARRES";
+    private String idContact;
+    private Boolean isNew;
     private EditText mEditFirstname;
     private EditText mEditLastname;
     private EditText mEditPhone;
@@ -18,11 +27,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditBirthday;
     private EditText mEditAddress;
     private Button   mButtonOK;
+    private Button mButtonDelete;
+
+    private myDataBaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        db = new myDataBaseHelper(EditActivity.this);
 
         mEditFirstname = findViewById(R.id.edit_firstname);
         mEditLastname = findViewById(R.id.edit_lastname);
@@ -31,16 +45,55 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mEditBirthday = findViewById(R.id.edit_birthday);
         mEditAddress = findViewById(R.id.edit_address);
         mButtonOK = findViewById(R.id.button_ok);
-
+        mButtonDelete = findViewById(R.id.button_delete);
         mButtonOK.setOnClickListener(this);
+        mButtonDelete.setOnClickListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            idContact = bundle.getString("id_contact");
+            Log.d(TAG, idContact);
+            if (idContact != null) {
+                Contact contact = db.getContactById(idContact);
+
+                if (contact == null) {
+                    Toast.makeText(this, "Contact not found", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return ;
+                }
+                mEditFirstname.setText(contact.firstname);
+                mEditLastname.setText(contact.lastname);
+                mEditPhone.setText(contact.phone);
+            }
+        } else {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null)
+            {
+                actionBar.setTitle("New Contact");
+                mButtonDelete.setEnabled(false);
+                mButtonDelete.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
     public void onClick(View view) {
-        myDataBaseHelper db = new myDataBaseHelper(EditActivity.this);
-        db.addContact(mEditFirstname.getText().toString().trim(),
-                mEditLastname.getText().toString().trim(),
-                mEditPhone.getText().toString().trim()
-        );
+        if (view == mButtonOK) {
+            if (idContact == null) {
+                db.addContact(mEditFirstname.getText().toString().trim(),
+                        mEditLastname.getText().toString().trim(),
+                        mEditPhone.getText().toString().trim()
+                );
+            } else {
+                db.upContact(idContact,
+                        mEditFirstname.getText().toString().trim(),
+                        mEditLastname.getText().toString().trim(),
+                        mEditPhone.getText().toString().trim()
+                );
+            }
+        } else if (view == mButtonDelete) {
+            db.delContact(idContact);
+        }
+        finish();
     }
 }

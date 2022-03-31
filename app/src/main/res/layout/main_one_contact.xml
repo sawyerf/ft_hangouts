@@ -8,11 +8,9 @@
     android:layout_marginVertical="4dp">
     <TextView
         android:id="@+id/id_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:textSize="0px"
-        android:text="info" />
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:textSize="0px" />
     <TextView
         android:id="@+id/firstname"
         android:layout_width="wrap_content"

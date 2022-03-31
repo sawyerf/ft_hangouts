@@ -6,13 +6,13 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class myDataBaseHelper extends SQLiteOpenHelper {
     private Context context;
@@ -55,6 +55,24 @@ public class myDataBaseHelper extends SQLiteOpenHelper {
         return contacts;
     }
 
+    public Contact getContactById(String idContact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE _id=" + idContact;
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        if (cursor.getCount() != 0) {
+            cursor.moveToNext();
+            if (cursor != null) {
+                return new Contact(cursor);
+            }
+        }
+        return null;
+    }
+
     public Cursor getContacts() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
@@ -65,6 +83,7 @@ public class myDataBaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
     public void addContact(String firstname, String lastname, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -78,6 +97,33 @@ public class myDataBaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Failed to add contact", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Added successfully", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void upContact(String id_contact, String firstname, String lastname, String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_FIRSTNAME, firstname);
+        cv.put(COLUMN_LASTNAME, lastname);
+        cv.put(COLUMN_PHONE, phone);
+
+        long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{id_contact});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to updated contact", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void delContact(String id_contact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        long result = db.delete(TABLE_NAME, "_id=?", new String[]{id_contact});
+        if (result == -1) {
+            Toast.makeText(context, "Failed to deleted contact", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show();
         }
     }
 }

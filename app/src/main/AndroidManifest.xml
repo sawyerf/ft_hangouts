@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ft_hangouts">
         <activity
+            android:name=".controller.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".controller.MessagesActivity"
+            android:exported="false"
+            android:label="Messages" />
+        <activity
             android:name=".controller.EditActivity"
             android:exported="false"
             android:label="Edit Contact"

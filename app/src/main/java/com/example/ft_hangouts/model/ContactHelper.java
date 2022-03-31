@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class myDataBaseHelper extends SQLiteOpenHelper {
+public class ContactHelper extends SQLiteOpenHelper {
     private Context context;
     private static String DATABASE_NAME = "Contact.db";
     private static final int DATABASE_VERSION = 1;
@@ -25,7 +25,7 @@ public class myDataBaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_LASTNAME = "lastname";
     private static final String COLUMN_PHONE = "phone_number";
 
-    public myDataBaseHelper(@Nullable Context context) {
+    public ContactHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class myDataBaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FIRSTNAME + " TEXT, " +
                 COLUMN_LASTNAME + " TEXT, " +
-                COLUMN_PHONE + " TEXT);";
+                COLUMN_PHONE + " TEXT UNIQUE);";
         db.execSQL(query);
     }
 

@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
-import com.example.ft_hangouts.model.myDataBaseHelper;
+import com.example.ft_hangouts.model.ContactHelper;
 
 import java.util.List;
 
@@ -30,15 +30,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mLastname;
     private TextView mIdContact;
 
-    private myDataBaseHelper db;
+    private ContactHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent EditActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+        startActivity(EditActivityIntent);
+
         mListContacts = findViewById(R.id.list_contacts);
-        db = new myDataBaseHelper(MainActivity.this);
+        db = new ContactHelper(MainActivity.this);
         /*
         db.addContact("Jacques", "Verges", "0611223344");
         db.addContact("Djamila", "Bouhired", "0611223344");
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void fillContacts(Cursor cursor) {
         List<Contact> contacts = db.CursorToContact(cursor);
         for (Contact contact:contacts) {
-            mOriginalContact = LayoutInflater.from(this).inflate(R.layout.main_one_contact, mListContacts, false);
+            mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
             mOriginalContact.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalContact.setOnClickListener(this);
             // Set FirstName & LastName

@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
-import com.example.ft_hangouts.model.myDataBaseHelper;
+import com.example.ft_hangouts.model.ContactHelper;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = "DESBARRES";
@@ -29,14 +27,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Button   mButtonOK;
     private Button mButtonDelete;
 
-    private myDataBaseHelper db;
+    private ContactHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        db = new myDataBaseHelper(EditActivity.this);
+        db = new ContactHelper(EditActivity.this);
 
         mEditFirstname = findViewById(R.id.edit_firstname);
         mEditLastname = findViewById(R.id.edit_lastname);

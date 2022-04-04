@@ -1,6 +1,7 @@
 package com.example.ft_hangouts.model;
 
 import android.database.Cursor;
+import android.util.Log;
 
 public class Message {
     public Integer idMessage;
@@ -15,6 +16,7 @@ public class Message {
             content = cursor.getString(1);
             date = cursor.getInt(2);
             sendby = cursor.getString(3);
+            Log.d("DESBARRES", "Message: " + sendby);
             sendto = cursor.getString(3);
         }
     }

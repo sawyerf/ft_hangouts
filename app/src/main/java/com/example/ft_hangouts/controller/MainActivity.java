@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
 import com.example.ft_hangouts.model.ContactHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mFirstname;
     private TextView mLastname;
     private TextView mIdContact;
+    private FloatingActionButton mGoMessagesButton;
 
     private ContactHelper db;
 
@@ -37,9 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent EditActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-        startActivity(EditActivityIntent);
+        // Intent EditActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+        // startActivity(EditActivityIntent);
 
+        mGoMessagesButton = findViewById(R.id.go_messages_button);
+        mGoMessagesButton.setOnClickListener(this);
         mListContacts = findViewById(R.id.list_contacts);
         db = new ContactHelper(MainActivity.this);
         /*
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void fillContacts(Cursor cursor) {
         List<Contact> contacts = db.CursorToContact(cursor);
-        for (Contact contact:contacts) {
+        for (Contact contact : contacts) {
             mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
             mOriginalContact.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalContact.setOnClickListener(this);
@@ -91,11 +96,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent EditActivityIntent = new Intent(MainActivity.this, EditActivity.class);
-        mIdContact = view.findViewById(R.id.id_contact);
-        EditActivityIntent.putExtra("id_contact", mIdContact.getText().toString());
-        startActivity(EditActivityIntent);
-        Log.d(TAG, "onClick: BG CA CLICK");
+        Intent ActivityIntent;
+        if (view == mGoMessagesButton) {
+            ActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
+        } else {
+            ActivityIntent = new Intent(MainActivity.this, EditActivity.class);
+            mIdContact = view.findViewById(R.id.id_contact);
+            ActivityIntent.putExtra("id_contact", mIdContact.getText().toString());
+            Log.d(TAG, "onClick: BG CA CLICK");
+        }
+        startActivity(ActivityIntent);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -50,7 +51,7 @@ public class MessageHelper extends SQLiteOpenHelper {
     }
 
 
-    public void addMessage(String content, int date, String sendby, String sendto) {
+    public void addMessage(String content, long date, String sendby, String sendto) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -62,20 +63,28 @@ public class MessageHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
             Toast.makeText(context, "Failed to add contact", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Added successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public Cursor getMessages() {
+    public List<Message> getMessageByPhone(String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_SENDBY + "=\"" + phone + "\"" +
+                " OR " + COLUMN_SENDTO + "=\"" + phone + "\"" +
+                " ORDER BY " + COLUMN_DATE + " ASC";
 
+        Log.d("DESBARRES", "getMessageByPhone: " + query);
         Cursor cursor = null;
         if (db != null) {
             cursor = db.rawQuery(query, null);
         }
-        return cursor;
+        return CursorToMessage(cursor);
+    }
+
+    public void getLastMessage() {
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_SENDTO +
+                " IN (select max(" + COLUMN_ID + ") from messages group by" + COLUMN_SENDTO)
     }
 
     @Override

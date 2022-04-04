@@ -38,6 +38,7 @@
             android:textSize="15sp"
             android:text="11:05"
             android:textColor="@color/grey_dark" />
+
     </LinearLayout>
     <TextView
         android:id="@+id/preview_message"
@@ -46,4 +47,15 @@
         android:textColor="@color/grey_dark"
         android:textSize="16sp"
         android:text="Salut, ca va ?"/>
+
+    <TextView
+        android:id="@+id/phone_number"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/name_contact"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:visibility="gone"/>
 </LinearLayout>

@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.ft_hangouts.R;
+import com.example.ft_hangouts.model.Contact;
+import com.example.ft_hangouts.model.ContactHelper;
 import com.example.ft_hangouts.model.Message;
 import com.example.ft_hangouts.model.MessageHelper;
 
@@ -33,10 +35,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditContent;
     private ScrollView mScroll;
 
-    private String nameContact;
     private String phoneNumber;
 
     private MessageHelper dbMessage;
+    private ContactHelper dbContact;
 
     private void scrollDown() {
         new Handler().postDelayed(new Runnable() {
@@ -71,19 +73,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         mSendButton.setOnClickListener(this);
 
         dbMessage = new MessageHelper(ChatActivity.this);
+        dbContact = new ContactHelper(ChatActivity.this);
 
         Bundle bundle = getIntent().getExtras();
-        nameContact = bundle.getString("name");
         phoneNumber = bundle.getString("phone_number");
-        setTitle(nameContact);
-        Log.d(TAG, "onCreate: " + nameContact);
+        Contact contact = dbContact.getContactByPhone(phoneNumber);
+        if (contact != null) {
+            setTitle(contact.firstname + " " + contact.lastname);
+        } else {
+            setTitle(phoneNumber);
+        }
         Log.d(TAG, "onCreate: " + phoneNumber);
 
         List<Message> listMessages = dbMessage.getMessageByPhone(phoneNumber);
         for (Message message : listMessages) {
-            if (message.sendby == phoneNumber) {
+            if (message.direction == message.ISRECV) {
                 addMessage(Gravity.LEFT, message.content);
-            } else {
+            } else if (message.direction == message.ISSEND) {
                 addMessage(Gravity.RIGHT, message.content);
             }
         }
@@ -100,7 +106,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         addMessage(Gravity.RIGHT, content);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber);
+        Log.d(TAG, "onClick: " + timestamp.toString());
+        dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
         mEditContent.setText("");
     }
 }

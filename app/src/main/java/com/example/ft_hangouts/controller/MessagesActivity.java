@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
 import com.example.ft_hangouts.model.ContactHelper;
+import com.example.ft_hangouts.model.Message;
 import com.example.ft_hangouts.model.MessageHelper;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class MessagesActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,14 +41,15 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
 
         mListMessages = findViewById(R.id.list_messages);
         dbContact = new ContactHelper(MessagesActivity.this);
-        Cursor cursor = dbContact.getContacts();
-        fillMessages(cursor);
+        dbMessage = new MessageHelper(MessagesActivity.this);
+        fillMessages();
     }
 
-    private void fillMessages(Cursor cursor) {
-        List<Contact> contacts = dbContact.CursorToContact(cursor);
-        for (Contact contact:contacts) {
-        // for (int i = 0; i < 15; i++) {
+    private void fillMessages() {
+        Contact contact;
+
+        List<Message> messages = dbMessage.getLastMessage();
+        for (Message message : messages) {
             mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.preview_message, mListMessages, false);
             // mOriginalMessage.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalMessage.setOnClickListener(this);
@@ -57,12 +60,20 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
             mPhoneNumber = mOriginalMessage.findViewById(R.id.phone_number);
             mNameContact = mOriginalMessage.findViewById(R.id.name_contact);
             mPreviewMsg  = mOriginalMessage.findViewById(R.id.preview_message);
-            mFirstname.setText(contact.firstname);
-            mLastname.setText(contact.lastname);
-            mDate.setText("11:15");
-            mPhoneNumber.setText(contact.phone);
-            mNameContact.setText(contact.firstname + " " + contact.lastname);
-            mPreviewMsg.setText("Des barres ! \uD83E\uDEB4");
+
+            contact = dbContact.getContactByPhone(message.other);
+            if (contact != null) {
+                mFirstname.setText(contact.firstname);
+                mLastname.setText(contact.lastname);
+                mNameContact.setText(contact.firstname + " " + contact.lastname);
+            } else {
+                mFirstname.setText(message.other);
+                mNameContact.setText(message.other);
+            }
+            Timestamp ts = new Timestamp((long)message.date);
+            mDate.setText(ts.toString());
+            mPhoneNumber.setText(message.other);
+            mPreviewMsg.setText(message.content);
             // Add Contact
             mListMessages.addView(mOriginalMessage);
         }
@@ -76,5 +87,12 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
         ChatActivityIntent.putExtra("name", mNameContact.getText().toString());
         ChatActivityIntent.putExtra("phone_number", mPhoneNumber.getText().toString());
         startActivity(ChatActivityIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mListMessages.removeAllViews();
+        fillMessages();
     }
 }

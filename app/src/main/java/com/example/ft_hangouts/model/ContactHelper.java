@@ -73,6 +73,24 @@ public class ContactHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public Contact getContactByPhone(String phone) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_PHONE + "=\"" + phone + "\"";
+
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        if (cursor.getCount() != 0) {
+            cursor.moveToNext();
+            if (cursor != null) {
+                return new Contact(cursor);
+            }
+        }
+        return null;
+    }
+
     public Cursor getContacts() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;

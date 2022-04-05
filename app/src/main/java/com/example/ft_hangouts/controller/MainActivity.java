@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mLastname;
     private TextView mIdContact;
     private FloatingActionButton mGoMessagesButton;
+    private Button mButtonCall;
+    private Button mButtonMessage;
 
     private ContactHelper db;
 
@@ -82,13 +84,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
             mOriginalContact.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalContact.setOnClickListener(this);
-            // Set FirstName & LastName
+            // Get View
             mFirstname = mOriginalContact.findViewById(R.id.firstname);
             mLastname = mOriginalContact.findViewById(R.id.lastname);
             mIdContact = mOriginalContact.findViewById(R.id.id_contact);
+            mButtonCall = mOriginalContact.findViewById(R.id.button_call);
+            mButtonMessage = mOriginalContact.findViewById(R.id.button_message);
+            // Set FirstName & LastName
             mFirstname.setText(contact.firstname);
             mLastname.setText(contact.lastname);
             mIdContact.setText(contact.idContact.toString());
+            mButtonMessage.setText(contact.phone);
+            mButtonCall.setText(contact.phone);
+            // Set Button
+            mButtonCall.setOnClickListener(this);
+            mButtonMessage.setOnClickListener(this);
             // Add Contact
             mListContacts.addView(mOriginalContact);
         }
@@ -99,13 +109,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent ActivityIntent;
         if (view == mGoMessagesButton) {
             ActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-        } else {
+            startActivity(ActivityIntent);
+        } else if (view.getId() == R.id.button_call) {
+            Log.d(TAG, "onClick: Call");
+        } else if (view.getId() == R.id.button_message) {
+            ActivityIntent = new Intent(MainActivity.this, ChatActivity.class);
+            Button button = view.findViewById(R.id.button_message);
+            ActivityIntent.putExtra("name", button.getText().toString());
+            ActivityIntent.putExtra("phone_number", button.getText().toString());
+            startActivity(ActivityIntent);
+        } else if (view.getId() == R.id.preview_contact){
             ActivityIntent = new Intent(MainActivity.this, EditActivity.class);
             mIdContact = view.findViewById(R.id.id_contact);
             ActivityIntent.putExtra("id_contact", mIdContact.getText().toString());
             Log.d(TAG, "onClick: BG CA CLICK");
+            startActivity(ActivityIntent);
         }
-        startActivity(ActivityIntent);
+        // startActivity(ActivityIntent);
     }
 
     @Override

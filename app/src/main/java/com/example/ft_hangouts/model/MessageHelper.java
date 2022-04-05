@@ -21,9 +21,13 @@ public class MessageHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "messages";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_CONTENT = "content";
-    private static final String COLUMN_DATE = "date";
-    private static final String COLUMN_SENDBY = "sendby";
-    private static final String COLUMN_SENDTO = "sendto";
+    private static final String COLUMN_DATE  = "date";
+    private static final String COLUMN_DIRECTION = "direction";
+    private static final String COLUMN_OTHER = "other";
+    private static final String COLUMN_ME    = "me";
+
+    public static final Boolean ISRECV = false;
+    public static final Boolean ISSEND = true;
 
     public MessageHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,8 +40,9 @@ public class MessageHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_CONTENT + " TEXT, " +
                     COLUMN_DATE + " INTEGER, " +
-                    COLUMN_SENDBY + " TEXT, " +
-                    COLUMN_SENDTO + " TEXT);";
+                    COLUMN_DIRECTION + " BOOLEAN," +
+                    COLUMN_OTHER + " TEXT, " +
+                    COLUMN_ME + " TEXT);";
         db.execSQL(query);
     }
 
@@ -49,16 +54,15 @@ public class MessageHelper extends SQLiteOpenHelper {
         }
         return messages;
     }
-
-
-    public void addMessage(String content, long date, String sendby, String sendto) {
+    public void addMessage(String content, long date, String me, String other, Boolean direction) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_CONTENT, content);
-        cv.put(COLUMN_DATE,   date);
-        cv.put(COLUMN_SENDBY, sendby);
-        cv.put(COLUMN_SENDTO, sendto);
+        cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_OTHER, other);
+        cv.put(COLUMN_ME, me);
+        cv.put(COLUMN_DIRECTION, direction);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -69,8 +73,7 @@ public class MessageHelper extends SQLiteOpenHelper {
     public List<Message> getMessageByPhone(String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COLUMN_SENDBY + "=\"" + phone + "\"" +
-                " OR " + COLUMN_SENDTO + "=\"" + phone + "\"" +
+                " WHERE " + COLUMN_OTHER + "=\"" + phone + "\"" +
                 " ORDER BY " + COLUMN_DATE + " ASC";
 
         Log.d("DESBARRES", "getMessageByPhone: " + query);
@@ -81,10 +84,16 @@ public class MessageHelper extends SQLiteOpenHelper {
         return CursorToMessage(cursor);
     }
 
-    public void getLastMessage() {
+    public List<Message> getLastMessage() {
+        SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COLUMN_SENDTO +
-                " IN (select max(" + COLUMN_ID + ") from messages group by" + COLUMN_SENDTO)
+                " WHERE " + COLUMN_ID + " IN (select max(" + COLUMN_ID + ") FROM messages group by " + COLUMN_OTHER + ")" +
+                " ORDER BY " + COLUMN_DATE + " DESC";
+        Cursor cursor = null;
+        if (db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return CursorToMessage(cursor);
     }
 
     @Override

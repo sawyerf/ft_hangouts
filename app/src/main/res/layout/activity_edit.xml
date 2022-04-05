@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:visibility="visible"
     tools:visibility="visible">
+    // TODO: Add Scrollbar
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,5 +91,14 @@
                 android:text="DELETE"
                 android:textColor="@color/black" />
         </LinearLayout>
+        <Button
+            android:id="@+id/button_fake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/white"
+            android:text="FAKE"
+            android:textColor="@color/black" />
     </LinearLayout>
 </LinearLayout>

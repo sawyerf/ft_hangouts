@@ -25,7 +25,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditBirthday;
     private EditText mEditAddress;
     private Button   mButtonOK;
-    private Button mButtonDelete;
+    private Button   mButtonDelete;
+    private Button   mButtonFake;
 
     private ContactHelper db;
 
@@ -44,6 +45,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         mEditAddress = findViewById(R.id.edit_address);
         mButtonOK = findViewById(R.id.button_ok);
         mButtonDelete = findViewById(R.id.button_delete);
+        mButtonFake = findViewById(R.id.button_fake);
+        mButtonFake.setOnClickListener(this);
         mButtonOK.setOnClickListener(this);
         mButtonDelete.setOnClickListener(this);
 
@@ -91,6 +94,14 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else if (view == mButtonDelete) {
             db.delContact(idContact);
+        } else if (view == mButtonFake) {
+            db.addContact("Jacques", "Verges", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Djamila", "Bouhired", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Francois", "Begeaudeau", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Karl", "Marx", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Louise", "Michel", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Emma", "Goldman", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Thomas", "Sankara", "06" + Integer.toString((int)(Math.random() * 100000000)));
         }
         finish();
     }

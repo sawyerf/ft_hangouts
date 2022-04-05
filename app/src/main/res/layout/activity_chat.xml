@@ -20,21 +20,24 @@
     </ScrollView>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="70dp">
 
         <EditText
             android:id="@+id/chat_content"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
+            android:layout_weight="10"
             android:text="🪴" />
 
         <Button
             android:id="@+id/send_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
+            android:layout_weight="1"
             android:text="Send" />
     </LinearLayout>
 </LinearLayout>

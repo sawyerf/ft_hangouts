@@ -82,9 +82,7 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         Intent ChatActivityIntent = new Intent(MessagesActivity.this, ChatActivity.class);
-        mNameContact = mOriginalMessage.findViewById(R.id.name_contact);
         mPhoneNumber = view.findViewById(R.id.phone_number);
-        ChatActivityIntent.putExtra("name", mNameContact.getText().toString());
         ChatActivityIntent.putExtra("phone_number", mPhoneNumber.getText().toString());
         startActivity(ChatActivityIntent);
     }

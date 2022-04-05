@@ -1,11 +1,18 @@
 package com.example.ft_hangouts.controller;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
@@ -100,14 +108,42 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
          */
     }
 
+    private Boolean sendMessage(String phoneNumber, String content) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, content, null, null);
+            Toast.makeText(this, "Des Pure moment de plaisir", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.d(TAG, "sendMessage: " + e);
+            Toast.makeText(this, "Wooooa Ca fonctionne pas", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onClick(View view) {
+
         String content = mEditContent.getText().toString();
 
-        addMessage(Gravity.RIGHT, content);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log.d(TAG, "onClick: " + timestamp.toString());
-        dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
-        mEditContent.setText("");
+
+        ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {});
+
+        /*
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.SEND_SMS }, 100);
+        }
+
+        if (ContextCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ChatActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+        }
+         */
+        if (sendMessage(phoneNumber, content)) {
+            dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
+            addMessage(Gravity.RIGHT, content);
+            mEditContent.setText("");
+        }
     }
 }

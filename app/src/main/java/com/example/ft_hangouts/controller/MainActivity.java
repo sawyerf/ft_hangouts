@@ -49,15 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGoMessagesButton.setOnClickListener(this);
         mListContacts = findViewById(R.id.list_contacts);
         db = new ContactHelper(MainActivity.this);
-        /*
-        db.addContact("Jacques", "Verges", "0611223344");
-        db.addContact("Djamila", "Bouhired", "0611223344");
-        db.addContact("Francois", "Begeaudeau", "0611223344");
-        db.addContact("Karl", "Marx", "0611223344");
-        db.addContact("Louise", "Michel", "0611223344");
-        db.addContact("Emma", "Goldman", "0611223344");
-        db.addContact("Thomas", "Sankara", "0611223344");
-         */
         refreshContact();
     }
 

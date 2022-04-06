@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +24,14 @@ import java.util.List;
 
 public class MessagesActivity extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = "DESBARRES";
+    private static MessagesActivity instance;
     private View mOriginalMessage;
     private LinearLayout mListMessages;
 
-    private TextView mFirstname;
-    private TextView mLastname;
+    private TextView mName;
     private TextView mDate;
     private TextView mPhoneNumber;
     private TextView mPreviewMsg;
-    private TextView mNameContact;
     private ContactHelper dbContact;
     private MessageHelper dbMessage;
 
@@ -39,36 +40,34 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
 
+        instance = this;
+
         mListMessages = findViewById(R.id.list_messages);
         dbContact = new ContactHelper(MessagesActivity.this);
         dbMessage = new MessageHelper(MessagesActivity.this);
         fillMessages();
     }
 
-    private void fillMessages() {
+    public void fillMessages() {
         Contact contact;
 
+        mListMessages.removeAllViews();
         List<Message> messages = dbMessage.getLastMessage();
         for (Message message : messages) {
             mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.preview_message, mListMessages, false);
             // mOriginalMessage.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalMessage.setOnClickListener(this);
             // Set FirstName & LastName
-            mFirstname   = mOriginalMessage.findViewById(R.id.firstname);
-            mLastname    = mOriginalMessage.findViewById(R.id.lastname);
+            mName   = mOriginalMessage.findViewById(R.id.name);
             mDate        = mOriginalMessage.findViewById(R.id.date);
             mPhoneNumber = mOriginalMessage.findViewById(R.id.phone_number);
-            mNameContact = mOriginalMessage.findViewById(R.id.name_contact);
             mPreviewMsg  = mOriginalMessage.findViewById(R.id.preview_message);
 
             contact = dbContact.getContactByPhone(message.other);
             if (contact != null) {
-                mFirstname.setText(contact.firstname);
-                mLastname.setText(contact.lastname);
-                mNameContact.setText(contact.firstname + " " + contact.lastname);
+                mName.setText(contact.firstname + " " + contact.lastname);
             } else {
-                mFirstname.setText(message.other);
-                mNameContact.setText(message.other);
+                mName.setText(message.other);
             }
             Timestamp ts = new Timestamp((long)message.date);
             mDate.setText(ts.toString());
@@ -90,7 +89,10 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        mListMessages.removeAllViews();
         fillMessages();
+    }
+
+    public static MessagesActivity getInstance() {
+        return instance;
     }
 }

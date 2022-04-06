@@ -13,22 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/firstname"
+            android:id="@+id/name"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="19sp"
-            android:layout_marginRight="5dp"
+            android:maxLength="25"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Jacques"/>
-        <TextView
-            android:id="@+id/lastname"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="19sp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Verges"/>
+            android:text="Jacques Verges d dsq dqsghkgdkgskdgq"/>
 
         <TextView
             android:id="@+id/date"
@@ -50,11 +42,6 @@
 
     <TextView
         android:id="@+id/phone_number"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:visibility="gone"/>
-    <TextView
-        android:id="@+id/name_contact"
         android:layout_width="0px"
         android:layout_height="0px"
         android:visibility="gone"/>

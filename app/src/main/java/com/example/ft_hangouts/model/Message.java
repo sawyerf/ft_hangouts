@@ -22,9 +22,9 @@ public class Message {
             other = cursor.getString(4);
             me = cursor.getString(5);
             direction = cursor.getInt(3) > 0;
-            Log.d("DESBARRES", "Other: " + other);
-            Log.d("DESBARRES", "ME: " + me);
-            Log.d("DESBARRES", "direction: " + direction);
+            // Log.d("DESBARRES", "Other: " + other);
+            // Log.d("DESBARRES", "ME: " + me);
+            // Log.d("DESBARRES", "direction: " + direction);
         }
     }
 }

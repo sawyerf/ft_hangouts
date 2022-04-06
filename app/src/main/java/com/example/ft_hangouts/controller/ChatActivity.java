@@ -37,6 +37,7 @@ import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     static String TAG = "DESBARRES";
+    public static ChatActivity instance;
 
     private LinearLayout mListMessages;
     private View mOriginalMessage;
@@ -70,10 +71,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         scrollDown();
     }
 
+    public void updateMessage(String phone, String content) {
+        if (phone.equals(phoneNumber)) {
+            addMessage(Gravity.LEFT, content);
+        }
+    }
+    
+    public static ChatActivity getInstance() {
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        instance = this;
 
         mListMessages = findViewById(R.id.list_chat);
         mSendButton = findViewById(R.id.send_button);
@@ -102,12 +115,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 addMessage(Gravity.RIGHT, message.content);
             }
         }
-        /*
-        addMessage(Gravity.RIGHT, "Des barres ! \uD83E\uDEB4");
-        addMessage(Gravity.LEFT, "Moi aussi ! \uD83E\uDEB4");
-        addMessage(Gravity.LEFT, "😊");
-         */
-
         if (!checkIfAlreadyhavePermission()) {
             requestForSpecificPermission();
         }
@@ -167,7 +174,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
         String content = mEditContent.getText().toString();
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -176,7 +182,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (sendMessage(phoneNumber, content)) {
             dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
             addMessage(Gravity.RIGHT, content);
-            mEditContent.setText("");
+            mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int)(Math.random() * 3.0)]);
         }
     }
 }

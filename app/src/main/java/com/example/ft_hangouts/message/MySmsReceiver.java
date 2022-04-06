@@ -6,45 +6,52 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.ft_hangouts.controller.ChatActivity;
+import com.example.ft_hangouts.controller.MainActivity;
+import com.example.ft_hangouts.controller.MessagesActivity;
+import com.example.ft_hangouts.model.MessageHelper;
+
+import java.sql.Timestamp;
 
 public class MySmsReceiver extends BroadcastReceiver {
     private static final String TAG = "DESBARRES";
     public static final String pdu_type = "pdus";
 
+    private MessageHelper dbMessage;
+
+    private void updateActivity(String phone, String content) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        dbMessage.addMessage(content, timestamp.getTime(), "me", phone, dbMessage.ISRECV);
+        if (ChatActivity.getInstance() != null) {
+            ChatActivity.getInstance().updateMessage(phone, content);
+        }
+        if (MessagesActivity.getInstance() != null) {
+            MessagesActivity.getInstance().fillMessages();
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Get the SMS message.
+        dbMessage = new MessageHelper(context);
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs;
-        String strMessage = "";
         String format = bundle.getString("format");
-        // Retrieve the SMS message received.
         Object[] pdus = (Object[]) bundle.get(pdu_type);
         if (pdus != null) {
-            // Check the Android version.
-            boolean isVersionM =
-                    (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
-            // Fill the msgs array.
             msgs = new SmsMessage[pdus.length];
             for (int i = 0; i < msgs.length; i++) {
-                // Check Android version and use appropriate createFromPdu.
-                if (isVersionM) {
-                    // If Android version M or newer:
-                    msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);
-                } else {
-                    // If Android version L or older:
-                    msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                }
-                // Build the message to show.
-                strMessage += "SMS from " + msgs[i].getOriginatingAddress();
-                strMessage += " :" + msgs[i].getMessageBody() + "\n";
-                // Log and display the SMS message.
-                Log.d(TAG, "onReceive: " + strMessage);
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+                msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format);
+                updateActivity(msgs[i].getOriginatingAddress(), msgs[i].getMessageBody());
+                Log.d(TAG, "onReceive: " + msgs[i].getOriginatingAddress() + " : " + msgs[i].getMessageBody());
             }
         }
-    }}
+    }
+}

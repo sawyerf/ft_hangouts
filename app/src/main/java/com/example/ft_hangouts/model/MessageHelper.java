@@ -66,7 +66,7 @@ public class MessageHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
-            Toast.makeText(context, "Failed to add contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed to add Message", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -76,7 +76,6 @@ public class MessageHelper extends SQLiteOpenHelper {
                 " WHERE " + COLUMN_OTHER + "=\"" + phone + "\"" +
                 " ORDER BY " + COLUMN_DATE + " ASC";
 
-        Log.d("DESBARRES", "getMessageByPhone: " + query);
         Cursor cursor = null;
         if (db != null) {
             cursor = db.rawQuery(query, null);

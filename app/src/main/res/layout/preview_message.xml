@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="14dp"
-    android:layout_marginVertical="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/name"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="19sp"
-            android:maxLength="25"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Jacques Verges d dsq dqsghkgdkgskdgq"/>
+    android:padding="14dp">
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|right"
-            android:textSize="15sp"
-            android:text="11:05"
-            android:textColor="@color/grey_dark" />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:text="Jacques Verges Jacques Verges Jacques Verges"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4sp"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical|right"
+        android:text="11:05"
+        android:background="@color/white"
+        android:textColor="@color/grey_dark"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/preview_message"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:text="Salut, ca va ?"
         android:textColor="@color/grey_dark"
         android:textSize="16sp"
-        android:text="Salut, ca va ?"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/phone_number"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:visibility="gone"/>
-</LinearLayout>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="14dp"
+        tools:layout_editor_absoluteY="14dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

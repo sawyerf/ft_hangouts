@@ -3,10 +3,8 @@ package com.example.ft_hangouts.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends SQLiteOpenHelper {
-    private Context context;
-    private static String DATABASE_NAME = "Contact.db";
+    private final Context context;
+    private static final String DATABASE_NAME = "Contact.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "contacts";
@@ -66,9 +64,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         }
         if (cursor.getCount() != 0) {
             cursor.moveToNext();
-            if (cursor != null) {
-                return new Contact(cursor);
-            }
+            return new Contact(cursor);
         }
         return null;
     }
@@ -84,9 +80,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         }
         if (cursor.getCount() != 0) {
             cursor.moveToNext();
-            if (cursor != null) {
-                return new Contact(cursor);
-            }
+            return new Contact(cursor);
         }
         return null;
     }

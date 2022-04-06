@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MessageHelper extends SQLiteOpenHelper {
-    private Context context;
-    private static String DATABASE_NAME = "Message.db";
+    private final Context context;
+    private static final String DATABASE_NAME = "Message.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "messages";

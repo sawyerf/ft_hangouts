@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Intent EditActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-        // startActivity(EditActivityIntent);
-
         mGoMessagesButton = findViewById(R.id.go_messages_button);
         mGoMessagesButton.setOnClickListener(this);
         mListContacts = findViewById(R.id.list_contacts);

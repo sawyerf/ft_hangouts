@@ -1,24 +1,19 @@
 package com.example.ft_hangouts.controller;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,7 +31,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
-    static String TAG = "DESBARRES";
+    private static final String TAG = "DESBARRES";
     public static ChatActivity instance;
 
     private LinearLayout mListMessages;
@@ -49,37 +44,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private MessageHelper dbMessage;
     private ContactHelper dbContact;
-
-    private void scrollDown() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mScroll.fullScroll(View.FOCUS_DOWN);
-            }
-        }, 100);
-    }
-
-    void addMessage(int gravity, String content) {
-        mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.message_chat, mListMessages, false);
-        TextView msgView = mOriginalMessage.findViewById(R.id.unique_message);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = gravity;
-        params.bottomMargin = 12;
-        msgView.setLayoutParams(params);
-        msgView.setText(content);
-        mListMessages.addView(mOriginalMessage);
-        scrollDown();
-    }
-
-    public void updateMessage(String phone, String content) {
-        if (phone.equals(phoneNumber)) {
-            addMessage(Gravity.LEFT, content);
-        }
-    }
-    
-    public static ChatActivity getInstance() {
-        return instance;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +74,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         List<Message> listMessages = dbMessage.getMessageByPhone(phoneNumber);
         for (Message message : listMessages) {
             if (message.direction == message.ISRECV) {
-                addMessage(Gravity.LEFT, message.content);
+                addMessage(Gravity.START, message.content);
             } else if (message.direction == message.ISSEND) {
-                addMessage(Gravity.RIGHT, message.content);
+                addMessage(Gravity.END, message.content);
             }
         }
         if (!checkIfAlreadyhavePermission()) {
@@ -128,13 +92,40 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private boolean checkIfAlreadyhavePermission() {
-        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
+    private void scrollDown() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScroll.fullScroll(View.FOCUS_DOWN);
+            }
+        }, 100);
+    }
+
+    void addMessage(int gravity, String content) {
+        mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.message_chat, mListMessages, false);
+        TextView msgView = mOriginalMessage.findViewById(R.id.unique_message);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = gravity;
+        params.bottomMargin = 12;
+        msgView.setLayoutParams(params);
+        msgView.setText(content);
+        mListMessages.addView(mOriginalMessage);
+        scrollDown();
+    }
+
+    public void updateMessage(String phone, String content) {
+        if (phone.equals(phoneNumber)) {
+            addMessage(Gravity.START, content);
         }
+    }
+
+    public static ChatActivity getInstance() {
+        return instance;
+    }
+
+    private Boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestForSpecificPermission() {
@@ -181,8 +172,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         if (sendMessage(phoneNumber, content)) {
             dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
-            addMessage(Gravity.RIGHT, content);
-            mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int)(Math.random() * 3.0)]);
+            addMessage(Gravity.END, content);
+            mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
         }
     }
 }

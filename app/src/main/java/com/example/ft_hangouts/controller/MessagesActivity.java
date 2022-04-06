@@ -3,13 +3,10 @@ package com.example.ft_hangouts.controller;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class MessagesActivity extends AppCompatActivity implements View.OnClickListener {
-    private static String TAG = "DESBARRES";
+    private static final String TAG = "DESBARRES";
     private static MessagesActivity instance;
     private View mOriginalMessage;
     private LinearLayout mListMessages;
@@ -69,7 +66,7 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 mName.setText(message.other);
             }
-            Timestamp ts = new Timestamp((long)message.date);
+            Timestamp ts = new Timestamp(message.date);
             mDate.setText(ts.toString());
             mPhoneNumber.setText(message.other);
             mPreviewMsg.setText(message.content);

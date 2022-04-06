@@ -6,14 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ft_hangouts.controller.ChatActivity;
-import com.example.ft_hangouts.controller.MainActivity;
 import com.example.ft_hangouts.controller.MessagesActivity;
 import com.example.ft_hangouts.model.MessageHelper;
 

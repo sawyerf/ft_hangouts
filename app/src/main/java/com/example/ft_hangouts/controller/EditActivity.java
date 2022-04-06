@@ -15,9 +15,9 @@ import com.example.ft_hangouts.model.Contact;
 import com.example.ft_hangouts.model.ContactHelper;
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener {
-    private static String TAG = "DESBARRES";
+    private static final String TAG = "DESBARRES";
+
     private String idContact;
-    private Boolean isNew;
     private EditText mEditFirstname;
     private EditText mEditLastname;
     private EditText mEditPhone;
@@ -95,13 +95,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view == mButtonDelete) {
             db.delContact(idContact);
         } else if (view == mButtonFake) {
-            db.addContact("Jacques", "Verges", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Djamila", "Bouhired", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Francois", "Begeaudeau", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Karl", "Marx", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Louise", "Michel", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Emma", "Goldman", "06" + Integer.toString((int)(Math.random() * 100000000)));
-            db.addContact("Thomas", "Sankara", "06" + Integer.toString((int)(Math.random() * 100000000)));
+            db.addContact("Jacques", "Verges", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Djamila", "Bouhired", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Francois", "Begeaudeau", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Karl", "Marx", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Louise", "Michel", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Emma", "Goldman", "06" + (int)(Math.random() * 100000000));
+            db.addContact("Thomas", "Sankara", "06" + (int)(Math.random() * 100000000));
         }
         finish();
     }

@@ -2,6 +2,7 @@ package com.example.ft_hangouts.controller;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -106,16 +107,59 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         addMessage(Gravity.LEFT, "Moi aussi ! \uD83E\uDEB4");
         addMessage(Gravity.LEFT, "😊");
          */
+
+        if (!checkIfAlreadyhavePermission()) {
+            requestForSpecificPermission();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!checkIfAlreadyhavePermission()) {
+            requestForSpecificPermission();
+        }
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "You can't send message with accept permission", Toast.LENGTH_SHORT).show();
+                    mSendButton.setEnabled(false);
+                    mEditContent.setEnabled(false);
+                } else {
+                    mSendButton.setEnabled(true);
+                    mEditContent.setEnabled(true);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private Boolean sendMessage(String phoneNumber, String content) {
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNumber, null, content, null, null);
-            Toast.makeText(this, "Des Pure moment de plaisir", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "Des Pure moment de plaisir", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.d(TAG, "sendMessage: " + e);
-            Toast.makeText(this, "Wooooa Ca fonctionne pas", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "Wooooa Ca fonctionne pas", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -129,17 +173,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Log.d(TAG, "onClick: " + timestamp.toString());
 
-        ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {});
-
-        /*
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.SEND_SMS }, 100);
-        }
-
-        if (ContextCompat.checkSelfPermission(ChatActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ChatActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
-        }
-         */
         if (sendMessage(phoneNumber, content)) {
             dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
             addMessage(Gravity.RIGHT, content);

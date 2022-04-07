@@ -137,7 +137,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         switch (requestCode) {
             case 101:
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "You can't send message with accept permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
                     mSendButton.setEnabled(false);
                     mEditContent.setEnabled(false);
                 } else {
@@ -154,10 +154,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNumber, null, content, null, null);
-            // Toast.makeText(this, "Des Pure moment de plaisir", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.d(TAG, "sendMessage: " + e);
-            // Toast.makeText(this, "Wooooa Ca fonctionne pas", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

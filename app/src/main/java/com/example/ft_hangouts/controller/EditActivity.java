@@ -58,7 +58,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Contact contact = db.getContactById(idContact);
 
                 if (contact == null) {
-                    Toast.makeText(this, "Contact not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.contact_not_found, Toast.LENGTH_SHORT).show();
                     finish();
                     return ;
                 }
@@ -70,7 +70,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null)
             {
-                actionBar.setTitle("New Contact");
+                actionBar.setTitle(R.string.new_contact);
                 mButtonDelete.setEnabled(false);
                 mButtonDelete.setVisibility(View.GONE);
             }

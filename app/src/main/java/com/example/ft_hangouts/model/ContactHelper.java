@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.ft_hangouts.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,9 +108,9 @@ public class ContactHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
-            Toast.makeText(context, "Failed to add contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fail_add_contact, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Added successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.add_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,9 +124,9 @@ public class ContactHelper extends SQLiteOpenHelper {
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{id_contact});
         if (result == -1) {
-            Toast.makeText(context, "Failed to updated contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fail_up_contact, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.up_success, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -133,9 +135,9 @@ public class ContactHelper extends SQLiteOpenHelper {
 
         long result = db.delete(TABLE_NAME, "_id=?", new String[]{id_contact});
         if (result == -1) {
-            Toast.makeText(context, "Failed to deleted contact", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fail_del_contact, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.del_success, Toast.LENGTH_SHORT).show();
         }
     }
 }

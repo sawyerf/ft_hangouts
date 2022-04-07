@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void refreshContact() {
         Cursor cursor = db.getContacts();
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_contact, Toast.LENGTH_SHORT).show();
         } else {
             fillContacts(cursor);
         }
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ActivityIntent = new Intent(MainActivity.this, EditActivity.class);
             mIdContact = view.findViewById(R.id.id_contact);
             ActivityIntent.putExtra("id_contact", mIdContact.getText().toString());
-            Log.d(TAG, "onClick: BG CA CLICK");
             startActivity(ActivityIntent);
         }
         // startActivity(ActivityIntent);

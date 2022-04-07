@@ -14,7 +14,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:maxLength="25"
+        android:maxLength="24"
         android:maxLines="1"
         android:text="Jacques Verges Jacques Verges Jacques Verges"
         android:textColor="@color/black"
@@ -55,6 +55,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="14dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

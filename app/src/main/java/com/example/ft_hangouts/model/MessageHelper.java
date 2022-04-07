@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.ft_hangouts.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class MessageHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
-            Toast.makeText(context, "Failed to add Message", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.fail_add_message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -99,5 +101,4 @@ public class MessageHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-
 }

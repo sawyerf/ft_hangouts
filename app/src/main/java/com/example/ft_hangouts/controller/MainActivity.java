@@ -1,6 +1,7 @@
 package com.example.ft_hangouts.controller;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -8,8 +9,12 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +37,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    static String TAG = "DESBARRES";
+    private static final String TAG = "DESBARRES";
+    private static final String SHARED_PREF_NAME = "ft_hangouts";
+    private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
     private View mOriginalContact;
     private LinearLayout mListContacts;
     private TextView mFirstname;
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton mGoMessagesButton;
     private Button mButtonCall;
     private Button mButtonMessage;
+    private SeekBar mSeekColor;
 
     private ContactHelper db;
 
@@ -48,14 +57,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new ContactHelper(MainActivity.this);
+
         mGoMessagesButton = findViewById(R.id.go_messages_button);
         mGoMessagesButton.setOnClickListener(this);
         mListContacts = findViewById(R.id.list_contacts);
-        db = new ContactHelper(MainActivity.this);
+        mSeekColor = findViewById(R.id.seekbar_color);
+
         refreshContact();
         if (!checkIfAlreadyhavePermission()) {
             requestForSpecificPermission();
         }
+
+        int color_toolbar = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
+                .getInt(SHARED_PREF_COLOR, 5708771);
+        mSeekColor.setProgress(color_toolbar);
+        setToolbar(color_toolbar);
+        mSeekColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
+                        .edit()
+                        .putInt(SHARED_PREF_COLOR, seekBar.getProgress())
+                        .apply();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Log.d(TAG, "onProgressChanged: " + color);
+                setToolbar(progress);
+            }
+        });
+    }
+
+    private void setToolbar(int progress) {
+        int color = Color.parseColor(String.format("#%06X", progress));
+
+        mSeekColor.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        getSupportActionBar()
+                .setBackgroundDrawable(colorDrawable);
     }
 
     @Override
@@ -116,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ActivityIntent.setData(Uri.parse("tel:" + button.getText().toString()));
             } else {
                 Toast.makeText(this, R.string.permission_call_not_granted, Toast.LENGTH_SHORT).show();
-                return ;
+                return;
             }
         } else if (view.getId() == R.id.button_message) {
             ActivityIntent = new Intent(MainActivity.this, ChatActivity.class);

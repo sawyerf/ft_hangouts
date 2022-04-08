@@ -3,6 +3,8 @@ package com.example.ft_hangouts.controller;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -75,6 +77,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 mButtonDelete.setVisibility(View.GONE);
             }
         }
+        setToolbar();
     }
 
     @Override
@@ -104,5 +107,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             db.addContact("Thomas", "Sankara", "06" + (int)(Math.random() * 100000000));
         }
         finish();
+    }
+
+    private void setToolbar() {
+        int progress = getSharedPreferences("ft_hangouts", MODE_PRIVATE)
+                .getInt("COLOR_TOOLBAR", 5708771);
+        int color = Color.parseColor(String.format("#%06X", progress));
+
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        getSupportActionBar()
+                .setBackgroundDrawable(colorDrawable);
     }
 }

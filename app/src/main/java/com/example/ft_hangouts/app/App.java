@@ -2,6 +2,9 @@ package com.example.ft_hangouts.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +13,8 @@ import java.sql.Timestamp;
 
 public class App extends android.app.Application implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "DESBARRES";
+    private static final String SHARED_PREF_NAME = "ft_hangouts";
+    private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
 
     private static Activity mActivity;
     private Integer layerActivity = 0;

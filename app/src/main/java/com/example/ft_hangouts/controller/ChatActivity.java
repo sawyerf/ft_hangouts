@@ -7,6 +7,9 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.SmsManager;
@@ -80,6 +83,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         checkIfHavePermission();
+        setToolbar();
     }
 
     private void checkIfHavePermission() {
@@ -92,6 +96,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             mSendButton.setEnabled(false);
             mEditContent.setEnabled(false);
         };
+    }
+
+    private void setToolbar() {
+        int progress = getSharedPreferences("ft_hangouts", MODE_PRIVATE)
+                .getInt("COLOR_TOOLBAR", 5708771);
+        int color = Color.parseColor(String.format("#%06X", progress));
+
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        getSupportActionBar()
+                .setBackgroundDrawable(colorDrawable);
     }
 
     @Override

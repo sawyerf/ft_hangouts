@@ -3,6 +3,8 @@ package com.example.ft_hangouts.controller;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +45,7 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
         dbContact = new ContactHelper(MessagesActivity.this);
         dbMessage = new MessageHelper(MessagesActivity.this);
         fillMessages();
+        setToolbar();
     }
 
     public void fillMessages() {
@@ -73,6 +76,16 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
             // Add Contact
             mListMessages.addView(mOriginalMessage);
         }
+    }
+
+    private void setToolbar() {
+        int progress = getSharedPreferences("ft_hangouts", MODE_PRIVATE)
+                .getInt("COLOR_TOOLBAR", 5708771);
+        int color = Color.parseColor(String.format("#%06X", progress));
+
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        getSupportActionBar()
+                .setBackgroundDrawable(colorDrawable);
     }
 
     @Override

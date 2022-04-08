@@ -99,9 +99,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setToolbar() {
-        int progress = getSharedPreferences("ft_hangouts", MODE_PRIVATE)
-                .getInt("COLOR_TOOLBAR", 5708771);
-        int color = Color.parseColor(String.format("#%06X", progress));
+        String progress = getSharedPreferences("ft_hangouts", MODE_PRIVATE)
+                .getString("COLOR_TOOLBAR", "#FFFFFF");
+        int color = Color.parseColor(progress);
 
         ColorDrawable colorDrawable = new ColorDrawable(color);
         getSupportActionBar()

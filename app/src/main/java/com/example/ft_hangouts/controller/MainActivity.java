@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "DESBARRES";
     private static final String SHARED_PREF_NAME = "ft_hangouts";
     private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
+    private static final String SHARED_PREF_PROGRESS = "PROGRESS_SEEKBAR";
     private View mOriginalContact;
     private LinearLayout mListContacts;
     private TextView mFirstname;
@@ -69,9 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestForSpecificPermission();
         }
 
-        int color_toolbar = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
-                .getInt(SHARED_PREF_COLOR, 5708771);
-        mSeekColor.setProgress(color_toolbar);
+        String color_toolbar = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
+                .getString(SHARED_PREF_COLOR, "#FFFFFF");
+        int progress = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
+                .getInt(SHARED_PREF_PROGRESS,  5708771);
+        mSeekColor.setProgress(progress);
         setToolbar(color_toolbar);
         mSeekColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -79,23 +82,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO Auto-generated method stub
                 getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
                         .edit()
-                        .putInt(SHARED_PREF_COLOR, seekBar.getProgress())
+                        .putString(SHARED_PREF_COLOR, convertColor(seekBar.getProgress()))
+                        .apply();
+                getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
+                        .edit()
+                        .putInt(SHARED_PREF_PROGRESS, seekBar.getProgress())
                         .apply();
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Log.d(TAG, "onProgressChanged: " + color);
-                setToolbar(progress);
+                setToolbar(convertColor(seekBar.getProgress()));
             }
         });
     }
 
-    private void setToolbar(int progress) {
-        int color = Color.parseColor(String.format("#%06X", progress));
+    private String convertColor(int progress) {
+        double part = (progress + 1.0) / 256.0;
+        int redColor = (int) (255.0 * part) - 765;
+        int greenColor = ((int) (255.0 * (part % 4.0)) - 255) % (255 * 2);
+        int blueColor = (int) (255.0 * (part % 1.000000000001));
+
+        if (redColor < 0) {
+            redColor = 0;
+        } else if (redColor > 255) {
+            redColor = 255;
+        }
+        if (part % 2.0 > 1) {
+            blueColor = 255 - blueColor;
+        }
+        if (greenColor < 0) {
+            greenColor = 0;
+        } else if (greenColor > 255) {
+            greenColor = 255;
+        } else if ((part % 4.0) >= 3.0) {
+            greenColor = 255 - greenColor;
+        }
+        return (String.format("#%02X%02X%02X", redColor, greenColor, blueColor));
+    }
+
+    private void setToolbar(String color_str) {
+        int color = Color.parseColor(color_str);
 
         mSeekColor.getThumb().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ColorDrawable colorDrawable = new ColorDrawable(color);

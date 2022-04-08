@@ -35,7 +35,7 @@
 
                     <SeekBar
                         android:id="@+id/seekbar_color"
-                        android:max="0xFFFFFF"
+                        android:max="1791"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="32dp"

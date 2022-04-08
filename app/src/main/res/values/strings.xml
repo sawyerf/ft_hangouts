@@ -17,6 +17,7 @@
     <string name="birthday">Birthday</string>
     <string name="address">Address</string>
     <string name="permission_not_granted">You can\'t send message without accept permission.</string>
+    <string name="permission_call_not_granted">You can\'t call without accept permission.</string>
     <string name="no_contact">No contact.</string>
     <string name="contact_not_found">Contact not found.</string>
     <string name="fail_add_contact">Failed to add contact.</string>

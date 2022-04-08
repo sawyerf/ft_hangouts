@@ -79,17 +79,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 addMessage(Gravity.END, message.content);
             }
         }
-        if (!checkIfAlreadyhavePermission()) {
-            requestForSpecificPermission();
-        }
+        checkIfHavePermission();
+    }
+
+    private void checkIfHavePermission() {
+        int result_SEND_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        if (result_SEND_SMS == PackageManager.PERMISSION_GRANTED) {
+            mSendButton.setEnabled(true);
+            mEditContent.setEnabled(true);
+        } else {
+            Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
+            mSendButton.setEnabled(false);
+            mEditContent.setEnabled(false);
+        };
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!checkIfAlreadyhavePermission()) {
-            requestForSpecificPermission();
-        }
+        checkIfHavePermission();
     }
 
     private void scrollDown() {
@@ -121,33 +129,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     public static ChatActivity getInstance() {
         return instance;
-    }
-
-    private Boolean checkIfAlreadyhavePermission() {
-        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
-        return result == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestForSpecificPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS}, 101);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 101:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
-                    mSendButton.setEnabled(false);
-                    mEditContent.setEnabled(false);
-                } else {
-                    mSendButton.setEnabled(true);
-                    mEditContent.setEnabled(true);
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
     }
 
     private Boolean sendMessage(String phoneNumber, String content) {

@@ -3,9 +3,14 @@ package com.example.ft_hangouts.controller;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mListContacts = findViewById(R.id.list_contacts);
         db = new ContactHelper(MainActivity.this);
         refreshContact();
+        if (!checkIfAlreadyhavePermission()) {
+            requestForSpecificPermission();
+        }
     }
 
     @Override
@@ -55,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         mListContacts.removeAllViews();
         refreshContact();
+        // if (!checkIfAlreadyhavePermission()) {
+        //     requestForSpecificPermission();
+        // }
     }
 
     private void refreshContact() {
@@ -94,25 +105,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent ActivityIntent;
+        Intent ActivityIntent = null;
+
         if (view == mGoMessagesButton) {
             ActivityIntent = new Intent(MainActivity.this, MessagesActivity.class);
-            startActivity(ActivityIntent);
         } else if (view.getId() == R.id.button_call) {
-            Log.d(TAG, "onClick: Call");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                Button button = view.findViewById(R.id.button_call);
+                ActivityIntent = new Intent(Intent.ACTION_CALL);
+                ActivityIntent.setData(Uri.parse("tel:" + button.getText().toString()));
+            } else {
+                Toast.makeText(this, R.string.permission_call_not_granted, Toast.LENGTH_SHORT).show();
+                return ;
+            }
         } else if (view.getId() == R.id.button_message) {
             ActivityIntent = new Intent(MainActivity.this, ChatActivity.class);
             Button button = view.findViewById(R.id.button_message);
-            ActivityIntent.putExtra("name", button.getText().toString());
+            // ActivityIntent.putExtra("name", button.getText().toString());
             ActivityIntent.putExtra("phone_number", button.getText().toString());
-            startActivity(ActivityIntent);
-        } else if (view.getId() == R.id.preview_contact){
+        } else if (view.getId() == R.id.preview_contact) {
             ActivityIntent = new Intent(MainActivity.this, EditActivity.class);
             mIdContact = view.findViewById(R.id.id_contact);
             ActivityIntent.putExtra("id_contact", mIdContact.getText().toString());
-            startActivity(ActivityIntent);
         }
-        // startActivity(ActivityIntent);
+        startActivity(ActivityIntent);
     }
 
     @Override
@@ -129,5 +145,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(EditActivityIntent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Boolean checkIfAlreadyhavePermission() {
+        int result_SEND_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        int result_RECV_SMS = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
+        int result_CALL = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+        return (result_SEND_SMS == PackageManager.PERMISSION_GRANTED &&
+                result_RECV_SMS == PackageManager.PERMISSION_GRANTED &&
+                result_CALL == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS, Manifest.permission.CALL_PHONE}, 101);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

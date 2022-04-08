@@ -17,6 +17,7 @@
     <string name="edit_contact">Modif Contact</string>
     <string name="new_contact">Nouveau Contact</string>
     <string name="permission_not_granted">Vous ne pouvez pas envoyé de message sans accepté les permissions.</string>
+    <string name="permission_call_not_granted">Vous ne pouvez pas appelé de contact sans accepté les permissions.</string>
     <string name="no_contact">Pas de contact.</string>
     <string name="contact_not_found">Contact pas trouvé.</string>
     <string name="fail_add_contact">Erreur l\'ajout du contact.</string>

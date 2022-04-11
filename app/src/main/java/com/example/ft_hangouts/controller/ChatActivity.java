@@ -200,8 +200,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             if (sendMessage(phoneNumber, content)) {
                 dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
                 addMessage(Gravity.END, content);
-                // mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
-                mEditContent.setText("");
+                mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
+                // mEditContent.setText("");
             }
         }
     }

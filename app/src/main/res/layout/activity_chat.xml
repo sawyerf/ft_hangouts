@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/grey_light"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_light"
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scroll_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
+
         <LinearLayout
             android:id="@+id/list_chat"
             android:layout_width="match_parent"
@@ -20,24 +20,34 @@
     </ScrollView>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/chat_content"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:background="@drawable/chat"
             android:layout_margin="8dp"
-            android:layout_weight="10"
-            android:text="🪴" />
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/send_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:text="@string/send" />
+            <EditText
+                android:id="@+id/chat_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:layout_weight="10"
+                android:paddingLeft="13dp"
+                android:background="@color/white"
+                android:text="🪴" />
+
+            <Button
+                android:id="@+id/send_button"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:layout_margin="4dp"
+                android:background="@drawable/chat"
+                android:drawableLeft="@drawable/ic_send" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

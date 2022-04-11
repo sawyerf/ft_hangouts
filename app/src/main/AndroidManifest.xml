@@ -33,8 +33,7 @@
         <activity
             android:name=".controller.EditActivity"
             android:exported="false"
-            android:label="@string/edit_contact"
-            android:parentActivityName=".controller.MainActivity" />
+            android:label="@string/edit_contact" />
         <activity
             android:name=".controller.MainActivity"
             android:exported="true"

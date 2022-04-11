@@ -70,7 +70,7 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
                 mName.setText(message.other);
             }
             Timestamp ts = new Timestamp(message.date);
-            mDate.setText(ts.toString());
+            mDate.setText(String.format("%1$TD %1$TT", ts));
             mPhoneNumber.setText(message.other);
             mPreviewMsg.setText(message.content);
             // Add Contact

@@ -1,14 +1,9 @@
 package com.example.ft_hangouts.controller;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +11,9 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
@@ -37,6 +39,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "DESBARRES";
     public static ChatActivity instance;
 
+    private Boolean isContact;
     private LinearLayout mListMessages;
     private View mOriginalMessage;
     private Button mSendButton;
@@ -68,8 +71,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         phoneNumber = bundle.getString("phone_number");
         Contact contact = dbContact.getContactByPhone(phoneNumber);
         if (contact != null) {
+            isContact = true;
             setTitle(contact.firstname + " " + contact.lastname);
         } else {
+            isContact = false;
             setTitle(phoneNumber);
         }
         Log.d(TAG, "onCreate: " + phoneNumber);
@@ -95,7 +100,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, R.string.permission_not_granted, Toast.LENGTH_SHORT).show();
             mSendButton.setEnabled(false);
             mEditContent.setEnabled(false);
-        };
+        }
     }
 
     private void setToolbar() {
@@ -111,6 +116,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        Contact contact = dbContact.getContactByPhone(phoneNumber);
+        if (contact != null) {
+            isContact = true;
+            setTitle(contact.firstname + " " + contact.lastname);
+        } else {
+            isContact = false;
+            setTitle(phoneNumber);
+        }
         checkIfHavePermission();
     }
 
@@ -154,6 +167,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (isContact == false) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main, menu);
+            Log.d(TAG, "onCreateOptionsMenu: des barres");
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.add_contact) {
+            Intent ActivityIntent = new Intent(ChatActivity.this, EditActivity.class);
+            Log.d(TAG, "onOptionsItemSelected: " + phoneNumber);
+            ActivityIntent.putExtra("new_phone", phoneNumber);
+            startActivity(ActivityIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

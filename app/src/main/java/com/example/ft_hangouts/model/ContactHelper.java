@@ -93,7 +93,8 @@ public class ContactHelper extends SQLiteOpenHelper {
 
     public Cursor getContacts() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " ORDER BY " + COLUMN_LASTNAME + " DESC";
 
         Cursor cursor = null;
         if (db != null) {

@@ -5,3 +5,4 @@
 - https://stackoverflow.com/questions/33666071/android-marshmallow-request-permission
 - https://google-developer-training.github.io/android-developer-phone-sms-course/Lesson%202/2_p_2_sending_sms_messages.html
 - https://medium.com/droid-log/android-application-class-a8a1d64c82d1
+- https://www.linkedin.com/pulse/develop-your-own-colourpalette-android-vibhanshu-sharma

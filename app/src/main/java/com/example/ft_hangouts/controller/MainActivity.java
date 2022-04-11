@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
+                mGoMessagesButton.setVisibility(View.VISIBLE);
                 Log.d(TAG, "onStopTrackingTouch: " + convertColor(seekBar.getProgress()));
                 Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
                 getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                mGoMessagesButton.setVisibility(View.GONE);
             }
 
             @Override

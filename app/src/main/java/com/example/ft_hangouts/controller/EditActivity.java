@@ -1,8 +1,5 @@
 package com.example.ft_hangouts.controller;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ft_hangouts.R;
 import com.example.ft_hangouts.model.Contact;
@@ -54,8 +54,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idContact = bundle.getString("id_contact");
-            Log.d(TAG, idContact);
+            String phoneNumber = bundle.getString("new_phone");
+
             if (idContact != null) {
+                Log.d(TAG, idContact);
                 Contact contact = db.getContactById(idContact);
 
                 if (contact == null) {
@@ -68,6 +70,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 mEditPhone.setText(contact.phone);
                 mEditMail.setText(contact.mail);
                 mEditDesc.setText(contact.description);
+                mButtonFake.setEnabled(false);
+                mButtonFake.setVisibility(View.GONE);
+            } else if (phoneNumber != null) {
+                Log.d(TAG, "onCreate: " + phoneNumber);
+                mEditPhone.setText(phoneNumber);
+                mButtonDelete.setEnabled(false);
+                mButtonDelete.setVisibility(View.GONE);
+                mButtonFake.setEnabled(false);
+                mButtonFake.setVisibility(View.GONE);
             }
         } else {
             ActionBar actionBar = getSupportActionBar();
@@ -85,7 +96,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mButtonOK) {
             if (mEditPhone.getText().toString().trim().equals("") || mEditFirstname.getText().toString().trim().equals("")) {
                 Toast.makeText(this, R.string.incomplete_edit, Toast.LENGTH_SHORT).show();
-                return ;
+                return;
             }
             if (idContact == null) {
                 db.addContact(mEditFirstname.getText().toString().trim(),

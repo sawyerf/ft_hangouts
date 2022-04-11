@@ -27,4 +27,6 @@
     <string name="fail_del_contact">Erreur durant la suppression du contact.</string>
     <string name="del_success">Supprimé avec succées.</string>
     <string name="fail_add_message">Erreur durant l\'ajout du message.</string>
+    <string name="description">Description</string>
+    <string name="incomplete_edit">Les champs Prenom et Numero de telphone sont requis.</string>
 </resources>

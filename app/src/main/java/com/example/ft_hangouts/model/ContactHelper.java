@@ -24,6 +24,8 @@ public class ContactHelper extends SQLiteOpenHelper {
     private static final String COLUMN_FIRSTNAME = "firstname";
     private static final String COLUMN_LASTNAME = "lastname";
     private static final String COLUMN_PHONE = "phone_number";
+    private static final String COLUMN_MAIL = "mail";
+    private static final String COLUMN_DESC = "description";
 
     public ContactHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +38,9 @@ public class ContactHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_FIRSTNAME + " TEXT, " +
                 COLUMN_LASTNAME + " TEXT, " +
-                COLUMN_PHONE + " TEXT UNIQUE);";
+                COLUMN_PHONE + " TEXT UNIQUE, " +
+                COLUMN_MAIL + " TEXT, " +
+                COLUMN_DESC + " TEXT" + ");";
         db.execSQL(query);
     }
 
@@ -58,11 +62,11 @@ public class ContactHelper extends SQLiteOpenHelper {
     public Contact getContactById(String idContact) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE _id=" + idContact;
+                " WHERE _id=?";
 
         Cursor cursor = null;
         if (db != null) {
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{idContact});
         }
         if (cursor.getCount() != 0) {
             cursor.moveToNext();
@@ -74,11 +78,11 @@ public class ContactHelper extends SQLiteOpenHelper {
     public Contact getContactByPhone(String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COLUMN_PHONE + "=\"" + phone + "\"";
+                " WHERE " + COLUMN_PHONE + "=?";
 
         Cursor cursor = null;
         if (db != null) {
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{phone});
         }
         if (cursor.getCount() != 0) {
             cursor.moveToNext();
@@ -98,13 +102,15 @@ public class ContactHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void addContact(String firstname, String lastname, String phone) {
+    public void addContact(String firstname, String lastname, String phone, String mail, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_FIRSTNAME, firstname);
         cv.put(COLUMN_LASTNAME, lastname);
         cv.put(COLUMN_PHONE, phone);
+        cv.put(COLUMN_MAIL, mail);
+        cv.put(COLUMN_DESC, description);
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -114,13 +120,15 @@ public class ContactHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void upContact(String id_contact, String firstname, String lastname, String phone) {
+    public void upContact(String id_contact, String firstname, String lastname, String phone, String mail, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_FIRSTNAME, firstname);
         cv.put(COLUMN_LASTNAME, lastname);
         cv.put(COLUMN_PHONE, phone);
+        cv.put(COLUMN_MAIL, mail);
+        cv.put(COLUMN_DESC, description);
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{id_contact});
         if (result == -1) {

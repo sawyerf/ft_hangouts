@@ -8,96 +8,96 @@
     android:visibility="visible"
     tools:visibility="visible">
     // TODO: Add Scrollbar
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="8dp"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edit_firstname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/firstname"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/edit_lastname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:ems="10"
-            android:hint="@string/lastname"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/edit_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:ems="10"
-            android:hint="@string/phone_number"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/edit_mail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:ems="10"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/edit_birthday"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:ems="10"
-            android:hint="@string/birthday"
-            android:inputType="date" />
-
-        <EditText
-            android:id="@+id/edit_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:ems="10"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:gravity="center">
+            android:layout_marginHorizontal="8dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/firstname"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edit_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:ems="10"
+                android:hint="@string/lastname"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:ems="10"
+                android:hint="@string/phone_number"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/edit_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/edit_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:gravity="top|left"
+                android:hint="@string/description"
+                android:maxLines="5"
+                android:minLines="5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/button_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="4dp"
+                    android:text="@string/ok" />
+
+                <Button
+                    android:id="@+id/button_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="4dp"
+                    android:backgroundTint="@color/red"
+                    android:text="@string/delete"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
             <Button
-                android:id="@+id/button_ok"
+                android:id="@+id/button_fake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="4dp"
-                android:text="@string/ok" />
-
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="4dp"
-                android:backgroundTint="@color/red"
-                android:text="@string/delete"
+                android:backgroundTint="@color/white"
+                android:text="@string/fake"
                 android:textColor="@color/black" />
         </LinearLayout>
-        <Button
-            android:id="@+id/button_fake"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/white"
-            android:text="@string/fake"
-            android:textColor="@color/black" />
-    </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

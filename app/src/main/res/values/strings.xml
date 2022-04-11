@@ -27,4 +27,6 @@
     <string name="fail_del_contact">Failed to deleted contact.</string>
     <string name="del_success">Deleted successfully.</string>
     <string name="fail_add_message">Failed to add Message.</string>
+    <string name="description">Description</string>
+    <string name="incomplete_edit">You need to complete Firstname and Phone number.</string>
 </resources>

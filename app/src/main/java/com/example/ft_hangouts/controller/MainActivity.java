@@ -71,15 +71,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String color_toolbar = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
-                .getString(SHARED_PREF_COLOR, "#FFFFFF");
+                .getString(SHARED_PREF_COLOR, "#0000AB");
         int progress = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
-                .getInt(SHARED_PREF_PROGRESS,  5708771);
+                .getInt(SHARED_PREF_PROGRESS, 171);
         mSeekColor.setProgress(progress);
         setToolbar(color_toolbar);
         mSeekColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
+                Log.d(TAG, "onStopTrackingTouch: " + convertColor(seekBar.getProgress()));
+                Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
                 getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE)
                         .edit()
                         .putString(SHARED_PREF_COLOR, convertColor(seekBar.getProgress()))

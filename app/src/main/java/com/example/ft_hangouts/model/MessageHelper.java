@@ -74,12 +74,12 @@ public class MessageHelper extends SQLiteOpenHelper {
     public List<Message> getMessageByPhone(String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + COLUMN_OTHER + "=\"" + phone + "\"" +
+                " WHERE " + COLUMN_OTHER + "=?" +
                 " ORDER BY " + COLUMN_DATE + " ASC";
 
         Cursor cursor = null;
         if (db != null) {
-            cursor = db.rawQuery(query, null);
+            cursor = db.rawQuery(query, new String[]{phone});
         }
         return CursorToMessage(cursor);
     }

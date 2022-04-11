@@ -160,13 +160,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         String content = mEditContent.getText().toString();
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Log.d(TAG, "onClick: " + timestamp.toString());
+        if (!content.equals("")) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Log.d(TAG, "onClick: " + timestamp.toString());
 
-        if (sendMessage(phoneNumber, content)) {
-            dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
-            addMessage(Gravity.END, content);
-            mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
+            if (sendMessage(phoneNumber, content)) {
+                dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
+                addMessage(Gravity.END, content);
+                // mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
+                mEditContent.setText("");
+            }
         }
     }
 }

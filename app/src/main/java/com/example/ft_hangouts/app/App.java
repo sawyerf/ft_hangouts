@@ -34,7 +34,7 @@ public class App extends android.app.Application implements Application.Activity
             Toast.makeText(activity, "" + timestamp, Toast.LENGTH_SHORT).show();
             timestamp = null;
         }
-        Log.d(TAG, "onActivityResumed:" + layerActivity);
+        // Log.d(TAG, "onActivityResumed:" + layerActivity);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class App extends android.app.Application implements Application.Activity
         if (layerActivity == 0) {
             timestamp = new Timestamp(System.currentTimeMillis());
         }
-        Log.d(TAG, "onActivityStopped: " + layerActivity);
+        // Log.d(TAG, "onActivityStopped: " + layerActivity);
     }
 
     @Override

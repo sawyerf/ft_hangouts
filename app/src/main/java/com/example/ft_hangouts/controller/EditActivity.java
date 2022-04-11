@@ -98,15 +98,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, R.string.incomplete_edit, Toast.LENGTH_SHORT).show();
                 return;
             }
+            Boolean isOK;
             if (idContact == null) {
-                db.addContact(mEditFirstname.getText().toString().trim(),
+                isOK = db.addContact(mEditFirstname.getText().toString().trim(),
                         mEditLastname.getText().toString().trim(),
                         mEditPhone.getText().toString().trim(),
                         mEditMail.getText().toString().trim(),
                         mEditDesc.getText().toString().trim()
                 );
             } else {
-                db.upContact(idContact,
+                isOK = db.upContact(idContact,
                         mEditFirstname.getText().toString().trim(),
                         mEditLastname.getText().toString().trim(),
                         mEditPhone.getText().toString().trim(),
@@ -114,6 +115,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         mEditDesc.getText().toString().trim()
                 );
             }
+            if (isOK == false) return ;
         } else if (view == mButtonDelete) {
             db.delContact(idContact);
         } else if (view == mButtonFake) {

@@ -94,7 +94,7 @@ public class ContactHelper extends SQLiteOpenHelper {
     public Cursor getContacts() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
-                " ORDER BY " + COLUMN_LASTNAME + " DESC";
+                " ORDER BY " + COLUMN_LASTNAME + " ASC";
 
         Cursor cursor = null;
         if (db != null) {
@@ -103,7 +103,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void addContact(String firstname, String lastname, String phone, String mail, String description) {
+    public Boolean addContact(String firstname, String lastname, String phone, String mail, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -116,12 +116,14 @@ public class ContactHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
             Toast.makeText(context, R.string.fail_add_contact, Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             Toast.makeText(context, R.string.add_success, Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 
-    public void upContact(String id_contact, String firstname, String lastname, String phone, String mail, String description) {
+    public Boolean upContact(String id_contact, String firstname, String lastname, String phone, String mail, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -134,8 +136,10 @@ public class ContactHelper extends SQLiteOpenHelper {
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{id_contact});
         if (result == -1) {
             Toast.makeText(context, R.string.fail_up_contact, Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             Toast.makeText(context, R.string.up_success, Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 

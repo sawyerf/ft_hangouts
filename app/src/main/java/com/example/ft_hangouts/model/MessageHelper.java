@@ -53,6 +53,7 @@ public class MessageHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             messages.add(new Message(cursor));
         }
+        cursor.close();
         return messages;
     }
     public void addMessage(String content, long date, String me, String other, Boolean direction) {
@@ -100,5 +101,11 @@ public class MessageHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.close();
+        super.finalize();
     }
 }

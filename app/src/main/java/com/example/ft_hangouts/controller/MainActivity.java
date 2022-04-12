@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSeekColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
                 mGoMessagesButton.setVisibility(View.VISIBLE);
                 Log.d(TAG, "onStopTrackingTouch: " + convertColor(seekBar.getProgress()));
                 Log.d(TAG, "onStopTrackingTouch: " + seekBar.getProgress());
@@ -143,19 +142,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void refreshContact() {
-        Cursor cursor = db.getContacts();
-        if (cursor.getCount() == 0) {
+        List<Contact> contacts = db.getContacts();
+        if (contacts == null) {
             Toast.makeText(this, R.string.no_contact, Toast.LENGTH_SHORT).show();
         } else {
-            fillContacts(cursor);
+            fillContacts(contacts);
         }
     }
 
-    private void fillContacts(Cursor cursor) {
-        List<Contact> contacts = db.CursorToContact(cursor);
+    private void fillContacts(List<Contact> contacts) {
         for (Contact contact : contacts) {
             View mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
-            mOriginalContact.setBackgroundColor(getResources().getColor(R.color.grey_light));
+            // mOriginalContact.setBackgroundColor(ContextCompat.getColor(this, R.color.grey_light));
             mOriginalContact.setOnClickListener(this);
             // Get View
             mFirstname = mOriginalContact.findViewById(R.id.firstname);

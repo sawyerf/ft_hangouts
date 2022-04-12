@@ -55,7 +55,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:contentDescription="Messages"
+        android:contentDescription="@string/messages"
         android:src="@drawable/ic_messages"
         app:tint="@color/grey_light" />
 

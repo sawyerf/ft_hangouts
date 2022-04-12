@@ -17,7 +17,7 @@ public class App extends android.app.Application implements Application.Activity
     private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
 
     private static Activity mActivity;
-    private Integer layerActivity = 0;
+    private Integer layerActivity = -1;
     private Timestamp timestamp = null;
 
     @Override

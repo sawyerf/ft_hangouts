@@ -56,6 +56,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             contacts.add(new Contact(cursor));
         }
+        cursor.close();
         return contacts;
     }
 
@@ -91,7 +92,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public Cursor getContacts() {
+    public List<Contact> getContacts() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME +
                 " ORDER BY " + COLUMN_LASTNAME + " ASC";
@@ -100,7 +101,7 @@ public class ContactHelper extends SQLiteOpenHelper {
         if (db != null) {
             cursor = db.rawQuery(query, null);
         }
-        return cursor;
+        return CursorToContact(cursor);
     }
 
     public Boolean addContact(String firstname, String lastname, String phone, String mail, String description) {
@@ -152,5 +153,11 @@ public class ContactHelper extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, R.string.del_success, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.close();
+        super.finalize();
     }
 }

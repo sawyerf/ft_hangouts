@@ -115,7 +115,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         mEditDesc.getText().toString().trim()
                 );
             }
-            if (isOK == false) return ;
+            if (!isOK) return ;
         } else if (view == mButtonDelete) {
             db.delContact(idContact);
         } else if (view == mButtonFake) {

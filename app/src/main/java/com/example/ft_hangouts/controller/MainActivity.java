@@ -1,15 +1,12 @@
 package com.example.ft_hangouts.controller;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -41,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String SHARED_PREF_NAME = "ft_hangouts";
     private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
     private static final String SHARED_PREF_PROGRESS = "PROGRESS_SEEKBAR";
-    private View mOriginalContact;
     private LinearLayout mListContacts;
     private TextView mFirstname;
     private TextView mLastname;
@@ -144,9 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         mListContacts.removeAllViews();
         refreshContact();
-        // if (!checkIfAlreadyhavePermission()) {
-        //     requestForSpecificPermission();
-        // }
     }
 
     private void refreshContact() {
@@ -161,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void fillContacts(Cursor cursor) {
         List<Contact> contacts = db.CursorToContact(cursor);
         for (Contact contact : contacts) {
-            mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
+            View mOriginalContact = LayoutInflater.from(this).inflate(R.layout.preview_contact, mListContacts, false);
             mOriginalContact.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalContact.setOnClickListener(this);
             // Get View

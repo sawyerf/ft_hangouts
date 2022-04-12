@@ -41,7 +41,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private Boolean isContact;
     private LinearLayout mListMessages;
-    private View mOriginalMessage;
     private Button mSendButton;
     private EditText mEditContent;
     private ScrollView mScroll;
@@ -137,7 +136,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void addMessage(int gravity, String content) {
-        mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.message_chat, mListMessages, false);
+        View mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.message_chat, mListMessages, false);
         TextView msgView = mOriginalMessage.findViewById(R.id.unique_message);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = gravity;
@@ -171,7 +170,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (isContact == false) {
+        if (!isContact) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.main, menu);
             Log.d(TAG, "onCreateOptionsMenu: des barres");
@@ -200,8 +199,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             if (sendMessage(phoneNumber, content)) {
                 dbMessage.addMessage(content, timestamp.getTime(), "me", phoneNumber, dbMessage.ISSEND);
                 addMessage(Gravity.END, content);
-                mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
-                // mEditContent.setText("");
+                // mEditContent.setText(new String[]{"Des barres ! \uD83E\uDEB4", "Moi aussi ! \uD83E\uDEB4", "😊"}[(int) (Math.random() * 3.0)]);
+                mEditContent.setText("");
             }
         }
     }

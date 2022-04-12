@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.ft_hangouts.controller.ChatActivity;
 import com.example.ft_hangouts.controller.MessagesActivity;

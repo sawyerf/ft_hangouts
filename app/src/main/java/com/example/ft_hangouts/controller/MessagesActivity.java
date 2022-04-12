@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +23,6 @@ import java.util.List;
 public class MessagesActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "DESBARRES";
     private static MessagesActivity instance;
-    private View mOriginalMessage;
     private LinearLayout mListMessages;
 
     private TextView mName;
@@ -54,11 +52,11 @@ public class MessagesActivity extends AppCompatActivity implements View.OnClickL
         mListMessages.removeAllViews();
         List<Message> messages = dbMessage.getLastMessage();
         for (Message message : messages) {
-            mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.preview_message, mListMessages, false);
+            View mOriginalMessage = LayoutInflater.from(this).inflate(R.layout.preview_message, mListMessages, false);
             // mOriginalMessage.setBackgroundColor(getResources().getColor(R.color.grey_light));
             mOriginalMessage.setOnClickListener(this);
             // Set FirstName & LastName
-            mName   = mOriginalMessage.findViewById(R.id.name);
+            mName        = mOriginalMessage.findViewById(R.id.name);
             mDate        = mOriginalMessage.findViewById(R.id.date);
             mPhoneNumber = mOriginalMessage.findViewById(R.id.phone_number);
             mPreviewMsg  = mOriginalMessage.findViewById(R.id.preview_message);

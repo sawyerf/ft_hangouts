@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,16 +17,17 @@ import java.util.List;
 
 public class MessageHelper extends SQLiteOpenHelper {
     private final Context context;
+    private static final String TAG = "DESBARRES";
     private static final String DATABASE_NAME = "Message.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_NAME = "messages";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_CONTENT = "content";
-    private static final String COLUMN_DATE  = "date";
+    private static final String COLUMN_DATE = "date";
     private static final String COLUMN_DIRECTION = "direction";
     private static final String COLUMN_OTHER = "other";
-    private static final String COLUMN_ME    = "me";
+    private static final String COLUMN_ME = "me";
 
     public static final Boolean ISRECV = false;
     public static final Boolean ISSEND = true;
@@ -39,11 +41,11 @@ public class MessageHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_CONTENT + " TEXT, " +
-                    COLUMN_DATE + " INTEGER, " +
-                    COLUMN_DIRECTION + " BOOLEAN," +
-                    COLUMN_OTHER + " TEXT, " +
-                    COLUMN_ME + " TEXT);";
+                COLUMN_CONTENT + " TEXT, " +
+                COLUMN_DATE + " INTEGER, " +
+                COLUMN_DIRECTION + " BOOLEAN," +
+                COLUMN_OTHER + " TEXT, " +
+                COLUMN_ME + " TEXT);";
         db.execSQL(query);
     }
 
@@ -56,6 +58,7 @@ public class MessageHelper extends SQLiteOpenHelper {
         cursor.close();
         return messages;
     }
+
     public void addMessage(String content, long date, String me, String other, Boolean direction) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

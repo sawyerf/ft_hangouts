@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class ContactHelper extends SQLiteOpenHelper {
     private final Context context;
+    private static final String TAG = "DESBARRES";
     private static final String DATABASE_NAME = "Contact.db";
     private static final int DATABASE_VERSION = 1;
 

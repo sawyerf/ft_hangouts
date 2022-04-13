@@ -17,7 +17,7 @@ public class App extends android.app.Application implements Application.Activity
     private static final String SHARED_PREF_COLOR = "COLOR_TOOLBAR";
 
     private static Activity mActivity;
-    private Integer layerActivity = -1;
+    private Integer layerActivity = 0;
     private Timestamp timestamp = null;
 
     @Override
@@ -29,12 +29,6 @@ public class App extends android.app.Application implements Application.Activity
     @Override
     public void onActivityResumed(Activity activity) {
         mActivity = activity;
-        layerActivity++;
-        if (timestamp != null) {
-            Toast.makeText(activity, "" + timestamp, Toast.LENGTH_SHORT).show();
-            timestamp = null;
-        }
-        // Log.d(TAG, "onActivityResumed:" + layerActivity);
     }
 
     @Override
@@ -43,11 +37,17 @@ public class App extends android.app.Application implements Application.Activity
         if (layerActivity == 0) {
             timestamp = new Timestamp(System.currentTimeMillis());
         }
-        // Log.d(TAG, "onActivityStopped: " + layerActivity);
+        Log.d(TAG, "onActivityStopped: " + layerActivity);
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
+        layerActivity++;
+        if (timestamp != null) {
+            Toast.makeText(activity, "" + timestamp, Toast.LENGTH_SHORT).show();
+            timestamp = null;
+        }
+        Log.d(TAG, "onActivityStarted: " + layerActivity);
         mActivity = activity;
     }
 
